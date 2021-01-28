@@ -85,6 +85,9 @@ Nous allons créer une page HTML rudimentaire pour chacun de nos sites:
 
 `a2ensite ip_vhosts`
 
+Si besoin de désactiver en cas de pépin:  
+`a2dissite ip_vhosts`
+
 Ne pas mettre l'extension de fichier (.conf)
 La commande doit être lancée en tant que root !!!
 
