@@ -7,9 +7,6 @@
     - [Configurer les zones virtuelles](#configurer-les-zones-virtuelles)
     - [Créer les arborescences des sites](#créer-les-arborescences-des-sites)
     - [Activer les vHosts](#activer-les-vhosts)
-  - [Installer MariaDB](#installer-mariadb)
-  - [Installer PHP](#installer-php)
-  - [Tester PHP sur Apache](#tester-php-sur-apache)
 
 
 ## Installer Apache 2
@@ -94,48 +91,3 @@ La commande doit être lancée en tant que root !!!
 `systemctl reload apache2`
 
 On devrait maintenant avoir des pages différentes pour chaque IP
-
-## Installer MariaDB
-
-`# apt install mariadb-server`
-
-Pour s'assurer de la sécurité:  
-`# mysql_secure_installation`
-![3](3.png)
-
-Créer un utilisateur et une base de données:
-Se connecter à mysql en tant que root:  
-`# mysql -u root -p`
-
-    MariaDB [(none)]> CREATE DATABASE base_test;
-    MariaDB [(none)]> GRANT ALL ON base_test.* TO 'antoine'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
-    MariaDB [(none)]> FLUSH PRIVILEGES;
-    MariaDB [(none)]> exit;
-![4](4.png)
-
-Véfier si l'utilisateur peut se logger et voir la base de données:
-
-    # mysql -u antoine -p
-    MariaDB [(none)]> SHOW DATABASES;
-![5](5.png)
-
-## Installer PHP
-
-`# apt install php libapache2-mod-php php-mysql`
-
-Redémarrer Apache:  
-`# systemctl reload apache2`  
-`# systemctl status apache2`
-
-
-## Tester PHP sur Apache
-
-`# nano /var/www/html/info.php`
-![7](7.png)
-
-Charger la page sur un navigateur:  
-`http://SERVER_IP/info.php`
-![8](8.png)
-
-Enfin, supprimer le fichier par sécurité:  
-`# rm /var/www/html/info.php`
