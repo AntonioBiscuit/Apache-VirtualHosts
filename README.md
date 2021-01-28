@@ -44,7 +44,7 @@ Si on souhaitait avoir des IP persistantes, il faudrait modifier directement le 
 À ce moment on devrait avoir exactement la même page sur un navigateur depuis la première et la seconde IP
 
 ### Configurer les zones virtuelles
-`cd/etc/apache2/sites-available/`
+`cd /etc/apache2/sites-available/`
 `ls -l`
 
 `Le fichier 000-default.conf` décrit la donfiguration virtual host par défaut.
@@ -76,7 +76,7 @@ Nous allons créer un nouveau fichier qui contiendra notre configuration:
 `cd /var/www`
 
 Créer des dossiers pour nos sites:
-`mkdir -p /var/www/vhosts/site1 /var/vhosts/site2`
+`mkdir -p /var/www/vhosts/site1 /var/www/vhosts/site2`
 
 Nous allons créer une page HTML rudimentaire pour chacun de nos sites:
 `nano index.html`
