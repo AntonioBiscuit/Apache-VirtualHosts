@@ -7,6 +7,7 @@
     - [Configurer les zones virtuelles](#configurer-les-zones-virtuelles)
     - [Créer les arborescences des sites](#créer-les-arborescences-des-sites)
     - [Activer les vHosts](#activer-les-vhosts)
+  - [Prochainement](#prochainement)
 
 
 ## Installer Apache 2
@@ -94,3 +95,8 @@ La commande doit être lancée en tant que root !!!
 `systemctl reload apache2`
 
 On devrait maintenant avoir des pages différentes pour chaque IP
+
+## Prochainement
+
+- Avec un même adresse IP et des noms différents
+- Avec des noms de domaine
