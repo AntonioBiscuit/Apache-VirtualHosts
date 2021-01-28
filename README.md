@@ -3,6 +3,7 @@
 - [Installation d'un serveur LAMP Debian](#installation-dun-serveur-lamp-debian)
   - [Installer Apache 2](#installer-apache-2)
   - [Virtual Hosts](#virtual-hosts)
+    - [Trouver des IP et une interface disponible](#trouver-des-ip-et-une-interface-disponible)
     - [Configurer les zones virtuelles](#configurer-les-zones-virtuelles)
   - [Installer MariaDB](#installer-mariadb)
   - [Installer PHP](#installer-php)
@@ -26,8 +27,10 @@ Les fichiers de configuration se trouvent sous `/etc/apache2/`
 La page web se trouve sous `/var/www/html/`
 
 ## Virtual Hosts
+Pour avoir plusieurs sites sur la même machine, nous aurons besoin de créer des virtualhosts. Il nous faudra utiliser des IP différentes pour chaque arborescence de site.
 
-Nous allons utiliser des IP différentes pour chaque arborescence de site.
+### Trouver des IP et une interface disponible
+
 
 Pinger les IP qui nous intéressent. Si il n'y a pas de réponse, on peut assumer que l'IP est libre pour nous.
 
