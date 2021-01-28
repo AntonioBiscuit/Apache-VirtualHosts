@@ -19,9 +19,9 @@ Vérifier si le service Apache est en train de tourner:
 Sur un navigateur web, essayer de charger la page en utilisant l'IP du serveur.
 ![9](9.png)
 
-Les fichiers de configuration se trouvent sous `/etc/apache2/`
-`apache2.conf` : config générale
-`ports.conf` : port d'écoute
+Les fichiers de configuration se trouvent sous `/etc/apache2/`  
+`apache2.conf` : config générale  
+`ports.conf` : port d'écoute  
 
 La page web se trouve sous `/var/www/html/`
 
