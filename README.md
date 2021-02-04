@@ -8,6 +8,8 @@
     - [Créer les arborescences des sites](#créer-les-arborescences-des-sites)
     - [Activer les vHosts](#activer-les-vhosts)
   - [Prochainement](#prochainement)
+  - [Même chose mais avec une seule adresse IP et de ports différents](#même-chose-mais-avec-une-seule-adresse-ip-et-de-ports-différents)
+  - [Avec des noms de domaine](#avec-des-noms-de-domaine)
 
 
 ## Installer Apache 2
@@ -98,5 +100,127 @@ On devrait maintenant avoir des pages différentes pour chaque IP
 
 ## Prochainement
 
-- Avec un même adresse IP et des noms différents
+- Avec une même adresse IP et des noms différents
 - Avec des noms de domaine
+
+----------
+
+## Même chose mais avec une seule adresse IP et de ports différents
+
+Par défaut, Apache utilise le port 80 pour HTTP et 443 pour HTTPS.
+La configuration des ports utilisés se trouve dans le fichier:
+
+`/etc/apache2/ports.conf`
+
+On va ouvrir deux numéros de port différents pour nos deux arbrorescences différentes.
+
+On doit enlever ce qu'on a fait au tout début avec les IP différentes, désactiver l'ancien fichier  `ip_vhosts` avec:
+
+`a2dissite ip_vhosts`
+
+et recharger le Apache2 avec `systemctl reload apache2`
+
+On devrait maintenant retrouver la page par défaut de Apache sur le port par défaut.
+
+`cd /apache2/sites-available`
+`ls-la`
+
+On peut réutiliser le fichier `ip_vhosts.conf` et en faire une copie `port_hosts.conf`. On modifiera ce qu'il faut ou créera un nouveau fichier entier.
+
+```
+<VirtualHost 192.168.122.219:80>
+  ServerAdmin web@antoniobiscuit.fr
+  DocumentRoot "/var/www/vhosts/site1"
+  ServerName site1.antoniobiscuit.fr
+  ErrorLog "/var/log/apache2/site1_error_log"
+  CustomLog "/var/log/apache2/site1_access_log" combined
+</VirtualHost>
+
+<VirtualHost 192.168.122.219:8080>
+  ServerAdmin web@antoniobiscuit.fr
+  DocumentRoot "/var/www/vhosts/site2"
+  ServerName site2.antoniobiscuit.fr
+  ErrorLog "/var/log/apache2/site2_error_log"
+  CustomLog "/var/log/apache2/site2_access_log" combined
+</VirtualHost>
+```
+
+On utilise maintenant la même adresse IP pour les deux arborescences mais on utilise deux numéros de port différents au lieu de deux IP différentes.
+
+On peut modifier les pages web de sorte à inclure le numéro de port dans la struture
+
+`a2ensite port_hosts`
+
+Pour le moment, Apache2 n'écoute encore que sur les ports 80 et 443. ON doit alors modifier un fichie de config pour activer cela.
+
+Editer et ajouter simplement le port 8080 en dessous du port 80:
+`/etc/apache2/ports.conf`
+
+```
+Listen 80
+Listen 8080
+```
+
+On doit redémarrer entièrement le service car le fichier de conf n'est lu qu'au démarrage
+
+`systemctl restart apache2`
+
+On devrait maintenant avoir nos deux sites qui s'affichent selon le numéro de port choisi.
+
+----------
+
+## Avec des noms de domaine
+
+Désactiver l'autre méthode
+
+`a2dissite port_vhosts`
+
+`systemctl reload apache2`
+
+On utilisera une seule adresse IP mais des noms DNS.
+
+On a besoin d'un service DNS. On utilise le service DNS qui est donné par notre connexion.
+
+Fichier hosts
+On peut déclarer des noms de domaine
+
+cd `/etc/apache2/sites-available`
+
+ls
+
+On copie le fichier ports_vhosts.conf en `name_vhosts.conf`
+
+On fait ensuite les modifications nécessaires:
+
+```
+<VirtualHost *:80>
+  ServerAdmin web@antoniobiscuit.fr   
+  DocumentRoot "/var/www/vhosts/site1" 
+  ServerName site1.antoniobiscuit.local
+  ErrorLog "/var/log/apache2/site1_error_log"
+  CustomLog "/var/log/apache2/site1_access_log" combined
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerAdmin web@antoniobiscuit.fr   
+  DocumentRoot "/var/www/vhosts/site2" 
+  ServerName site2.antoniobiscuit.local
+  ErrorLog "/var/log/apache2/site2_error_log"
+  CustomLog "/var/log/apache2/site2_access_log" combined
+</VirtualHost>
+```
+
+On modifie optionnellement les sites pour savoir où on atterit
+
+On active enfin notre fichier conf: `a2ensite name_vhosts`
+`systemctl reload apache2`
+
+
+Sur Windows on doit éditer le fichier `hosts` et rajouter l'IP de notre serveur
+
+Sur Windows il se trouve sous: `c:\windows\system32\drivers\etc\hosts`  
+Sur Linux il se trouve sous `\etc\hosts`
+
+exemple:
+
+`192.122.101.2 site1.antoniobiscuit.local site2.antoniobiscuit.local`
